@@ -1,0 +1,77 @@
+<div class="form mt-5">
+  <h3>Realiza Tu Pedido!</h3>
+  <form [formGroup]="pedidoForm" (ngSubmit)="enviarPedido()">
+
+    <!-- Dirección de entrega -->
+    <div class="mb-3">
+      <label for="direccion"><h6>Dirección:</h6></label><br>
+      <input type="text" id="direccion" formControlName="direccion" placeholder="Calle, número, piso...">
+      @if (direccion?.invalid && (direccion?.dirty || direccion?.touched)) {
+        <div class="text-danger">
+          @if (direccion?.hasError('required')) {
+            <div>La dirección es obligatoria</div>
+          }
+          @if (direccion?.hasError('minlength')) {
+            <div>La dirección debe tener al menos 5 caracteres</div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Hora de entrega: type="time" muestra un selector de hora -->
+    <div class="mb-3">
+      <label for="hora"><h6>Hora de entrega:</h6></label><br>
+      <input type="time" id="hora" formControlName="hora">
+      @if (hora?.invalid && (hora?.dirty || hora?.touched)) {
+        <div class="text-danger">Elige una hora de entrega</div>
+      }
+    </div>
+
+    <!-- Tipo de pago: los dos radios usan el mismo formControlName -->
+    <h6>Tipo de pago:</h6>
+    <input type="radio" id="bizum" formControlName="metodoPago" value="bizum" (change)="cambiarMetodoPago()">
+    <label for="bizum"><h6>Bizum</h6></label> <br>
+
+    <input type="radio" id="tarjeta" formControlName="metodoPago" value="tarjeta" (change)="cambiarMetodoPago()">
+    <label for="tarjeta"><h6>Tarjeta</h6></label> <br><br>
+
+    <!-- Si se ha elegido tarjeta, se muestra este bloque -->
+    @if (metodoPago?.value === 'tarjeta') {
+      <div class="mb-3">
+        <label for="numTarjeta">Número de tarjeta:</label><br>
+        <input type="text" id="numTarjeta" formControlName="numTarjeta">
+        @if (numTarjeta?.invalid && (numTarjeta?.dirty || numTarjeta?.touched)) {
+          <div class="text-danger">
+            @if (numTarjeta?.hasError('required')) {
+              <div>El número de tarjeta es obligatorio</div>
+            }
+            @if (numTarjeta?.hasError('pattern')) {
+              <div>La tarjeta debe tener 16 números</div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Si se ha elegido Bizum, se muestra este bloque -->
+    @if (metodoPago?.value === 'bizum') {
+      <div class="mb-3">
+        <label for="telefono">Teléfono para Bizum:</label><br>
+        <input type="tel" id="telefono" formControlName="telefono">
+        @if (telefono?.invalid && (telefono?.dirty || telefono?.touched)) {
+          <div class="text-danger">
+            @if (telefono?.hasError('required')) {
+              <div>El teléfono es obligatorio</div>
+            }
+            @if (telefono?.hasError('pattern')) {
+              <div>El teléfono debe tener 9 números</div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <button type="submit" class="btn btn-danger" [disabled]="pedidoForm.invalid">Hacer pedido</button>
+
+  </form>
+</div>

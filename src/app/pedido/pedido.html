@@ -1,0 +1,28 @@
+<div class = "mt-5">
+    <h3>Tu pedido</h3>
+
+    <table class = "table">
+        <thead>
+            <tr>
+                <th>Pizza</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (linea of lineas(); track linea.pizza.nombre){
+                <tr>
+                    <td>{{ linea.pizza.nombre }}</td>
+                    <td>x{{ linea.cantidad}}</td>
+                    <td>{{ linea.pizza.precio * linea.cantidad}}€</td>
+                </tr>
+            } @empty {
+                <tr>
+                    <td colspan="3" class="text-center text-muted">Tu pedido está vacío</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h5 class="text-end">Total: {{ total }}€</h5>
+</div>

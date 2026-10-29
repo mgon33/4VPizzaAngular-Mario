@@ -1,0 +1,19 @@
+<nav class="d-flex justify-content-between align-items-center p-3 mb-4 border-bottom mi-nav-principal">
+
+  <div class="logo-nombre">
+    <img src="https://cdn-icons-png.flaticon.com/512/3132/3132693.png" alt="Logo" width="30" height="30" class="me-2">
+    <strong>Pizzas 4V - Mario</strong>
+  </div>
+
+  <!-- Al pulsar un enlace se avisa a App de qué página mostrar -->  
+  <div class="d-flex gap-4 botones-paginas">
+    <a class="text-decoration-none" (click)="cambiarPagina.emit('ListaPizzas')">Nuestras Pizzas</a>
+    <a class="text-decoration-none" (click)="cambiarPagina.emit('Pedido')">Realizar un pedido</a>
+  </div>
+
+  <form class="d-flex" (submit)="$event.preventDefault(); enviarBusqueda(texto.value)">
+    <input #texto class="form-control form-control-sm me-2" type="search" placeholder="Buscar por ingredientes..."
+          (input)="enviarBusqueda(texto.value)">
+    <button class="btn btn-sm btn-outline-dark" type="submit">Buscar</button>
+  </form>
+</nav> 

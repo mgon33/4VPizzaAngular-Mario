@@ -1,0 +1,23 @@
+.mi-nav-principal{
+    background-color: #c0392b;
+}
+
+.botones-paginas {
+
+    /* Cambiamos .a-pizzas por simplemente 'a' para afectar a todos los enlaces de este div */
+    a {
+        color: black;
+        border: 2px solid black;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer; // Muestra la mano al pasar por encima 
+        transition: all 0.3s ease;  // Animación suave 
+
+        // Efecto al pasar el ratón por encima (hover) 
+        &:hover {
+            background-color: #f39c12;
+            color: white;
+        }
+    }
+}

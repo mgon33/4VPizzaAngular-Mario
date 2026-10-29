@@ -1,0 +1,98 @@
+<nav class="d-flex justify-content-between align-items-center p-3 mb-4 border-bottom mi-nav-principal">
+  
+  <div class="logo-nombre">
+    <img src="https://cdn-icons-png.flaticon.com/512/3132/3132693.png" alt="Logo" width="30" height="30" class="me-2">
+    <strong>Pizzas 4V - Mario</strong>
+  </div>
+  
+  <div class="d-flex gap-4 botones-paginas">
+    <a class="text-decoration-none" style="cursor: pointer;" (click)="cambiarVista('pizzas')">Nuestras Pizzas</a>
+  <a class="text-decoration-none" style="cursor: pointer;" (click)="cambiarVista('pedido')">Realizar un pedido</a>
+  </div>
+  
+  <form class="d-flex" (submit)="$event.preventDefault(); buscar(texto.value)">
+    <input #texto class="form-control form-control-sm me-2" type="search" placeholder="Buscar por ingredientes..."
+           (input)="buscar(texto.value)">
+    <button class="btn btn-sm btn-outline-dark" type="submit">Buscar</button>
+  </form>
+  
+</nav>
+
+<div class="container">
+  
+  <!-- VISTA 1: PIZZAS -->
+  @if (vistaActual === 'pizzas') {
+    <h2 class="mb-4 text-center">Tienda de Pizzas Online - 4V</h2>
+    
+    <div class="row">
+      @for (pizza of pizzasFiltradas; track pizza.nombre) {
+  
+        <!-- GRID adaptativo: 1 col (móvil), 2 col (tablet), 4 col (PC) -->
+        <div class="col-12 col-md-6 col-lg-3 mb-4">
+          <div class="pizzas">
+            <div class="cabecera-pizza">
+              <h5 class="m-0">{{ pizza.nombre }} <strong>{{ pizza.precio }}</strong></h5>
+            </div>
+            <img [src]="pizza.imagen" class="card-img-top" [alt]="pizza.nombre" style="height: 200px; object-fit: cover;">
+            <div class="info-pizza">
+              <h6>Ingredientes:</h6>
+              <ul>
+                @for (ingrediente of pizza.ingredientes; track ingrediente) {
+                  <li>{{ ingrediente }}</li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      }@empty {
+      <p class="text-center text-muted">No hay pizzas con ese ingrediente.</p>
+      }
+    </div>
+  }
+    
+  <!-- VISTA 2: PEDIDOS -->
+  @if (vistaActual === 'pedido') {
+    <div class="form mt-5">
+      <h3>Realiza Tu Pedido!</h3>
+      <form action="pedido">
+
+        <!-- Dirección de entrega -->
+        <div class="mb-3">
+          <label for="direccion"><h6>Dirección:</h6></label><br>
+          <input type="text" name="direccion" id="direccion" placeholder="Calle, número, piso...">
+        </div>
+
+        <!-- Hora de entrega: type="time" muestra un selector de hora -->
+        <div class="mb-3">
+          <label for="hora"><h6>Hora de entrega:</h6></label><br>
+          <input type="time" name="hora" id="hora">
+        </div>
+
+        <!-- Radios con el mismo name: solo se puede marcar uno de los dos -->
+        <input type="radio" name="pago" id="bizum" (change)="metodoPago = 'bizum'">
+        <label for="bizum"><h6>Bizum</h6></label> <br>
+
+        <input type="radio" name="pago" id="tarjeta" (change)="metodoPago = 'tarjeta'">
+        <label for="tarjeta"><h6>Tarjeta</h6></label> <br><br>
+
+        <!-- Si se ha elegido tarjeta, se muestra este bloque -->
+        @if (metodoPago === 'tarjeta') {
+          <div class="mb-3">
+            <label for="numTarjeta">Número de tarjeta:</label><br>
+            <input type="number" name="numTarjeta" id="numTarjeta">
+          </div>
+        }
+
+        <!-- Si se ha elegido Bizum, se muestra este bloque -->
+        @if (metodoPago === 'bizum') {
+          <div class="mb-3">
+            <label for="telefono">Teléfono para Bizum:</label><br>
+            <input type="number" name="telefono" id="telefono">
+          </div>
+        }
+        
+      </form>
+    </div>
+  }
+  
+</div>
